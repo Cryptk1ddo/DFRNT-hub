@@ -1,13 +1,33 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="bg-black">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <meta name="description" content="DFRNT Productivity Hub - Neuroscience-based productivity tools, nootropics, binaural beats, pomodoro, and cognitive training." />
+    <meta name="theme-color" content="#E85002" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>DFRNT Productivity Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="min-h-screen bg-gradient-to-br from-[#000000] via-[#C10801] via-60% to-[#F16001] text-[#F9F9F9] font-sans">
     <div id="root"></div>
+    <noscript>
+      <div style="padding:2rem;text-align:center;background:#E85002;color:#fff;font-size:1.25rem;">
+        DFRNT Productivity Hub requires JavaScript to run.
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
+    <style>
+      html, body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: linear-gradient(120deg, #000000 0%, #C10801 60%, #F16001 100%);
+        min-height: 100vh;
+      }
+      #root {
+        min-height: 100vh;
+      }
+    </style>
   </body>
 </html>
