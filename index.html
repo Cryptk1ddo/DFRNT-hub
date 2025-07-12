@@ -1,33 +1,154 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-black">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="DFRNT Productivity Hub - Neuroscience-based productivity tools, nootropics, binaural beats, pomodoro, and cognitive training." />
-    <meta name="theme-color" content="#E85002" />
+    <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>DFRNT Productivity Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #000000;
+        min-height: 100vh;
+        color: #F9F9F9;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .hero {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        padding: 2rem 1rem;
+        text-align: center;
+        opacity: 0;
+        animation: fadeIn 1.2s cubic-bezier(.4,0,.2,1) 0.2s forwards;
+      }
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
+      .logotype {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-weight: 900;
+        font-size: 2.5rem;
+        letter-spacing: -1px;
+        color: #000;
+        background: linear-gradient(90deg, #F9F9F9 60%, #A7A7A7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        transition: letter-spacing 0.3s cubic-bezier(.4,0,.2,1);
+      }
+      .logotype:hover {
+        letter-spacing: 2px;
+      }
+      .title {
+        font-size: 2.1rem;
+        font-weight: 900;
+        color: #E85002;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+      }
+      .subtitle {
+        font-size: 1.25rem;
+        color: #F9F9F9;
+        margin-bottom: 2rem;
+        font-weight: 400;
+        max-width: 32rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .cta-btn {
+        background: linear-gradient(90deg, #000000 0%, #C10801 40%, #F16001 80%, #D9C3AB 100%);
+        color: #fff;
+        font-size: 1.125rem;
+        font-weight: 700;
+        padding: 0.85em 2.2em;
+        border: none;
+        border-radius: 2em;
+        box-shadow: 0 2px 16px 0 rgba(232,80,2,0.15);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-btn:active, .cta-btn:focus {
+        background: linear-gradient(90deg, #C10801 0%, #F16001 60%, #D9C3AB 100%);
+        transform: scale(0.98);
+        box-shadow: 0 4px 24px 0 rgba(232,80,2,0.25);
+      }
+      .cta-btn::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; right: 0; bottom: 0;
+        background: linear-gradient(90deg, #E85002 0%, #F16001 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 0;
+      }
+      .cta-btn:hover::after {
+        opacity: 0.12;
+      }
+      .footer {
+        flex-shrink: 0;
+        text-align: center;
+        padding: 1.5rem 0 0.5rem 0;
+        color: #A7A7A7;
+        font-size: 0.95rem;
+        letter-spacing: 0.01em;
+      }
+      @media (max-width: 600px) {
+        .logotype {
+          font-size: 1.5rem;
+        }
+        .title {
+          font-size: 1.3rem;
+        }
+        .subtitle {
+          font-size: 1rem;
+        }
+        .hero {
+          padding: 1.5rem 0.5rem;
+        }
+      }
+    </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-br from-[#000000] via-[#C10801] via-60% to-[#F16001] text-[#F9F9F9] font-sans">
+  <body>
+    <main class="hero" role="main">
+      <div class="logotype">DFRNT Tools</div>
+      <h1 class="title">DFRNT Productivity Hub</h1>
+      <p class="subtitle">
+        Neuroscience-based productivity tools: Nootropics Navigator, Binaural Beats Generator, Pomodoro Timer, and Cognitive Training Programs.<br>
+        <span style="color:#D9C3AB;">Unlock your brain’s full potential.</span>
+      </p>
+      <a href="#root" class="cta-btn" tabindex="0">Launch App</a>
+    </main>
     <div id="root"></div>
+    <footer class="footer">
+      &copy; 2024 DFRNT. All rights reserved.
+    </footer>
     <noscript>
       <div style="padding:2rem;text-align:center;background:#E85002;color:#fff;font-size:1.25rem;">
         DFRNT Productivity Hub requires JavaScript to run.
       </div>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>
-    <style>
-      html, body {
-        font-family: 'Inter', system-ui, sans-serif;
-        background: linear-gradient(120deg, #000000 0%, #C10801 60%, #F16001 100%);
-        min-height: 100vh;
-      }
-      #root {
-        min-height: 100vh;
-      }
-    </style>
   </body>
 </html>

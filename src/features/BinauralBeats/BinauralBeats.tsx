@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const gradientBtn = "bg-gradient-to-r from-black via-[#C10801] via-60% to-[#F16001] text-white hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-branding-orange transition-all duration-200";
+
 const frequencyPresets = [
   { name: 'Deep Sleep', frequency: 0.5, description: 'Delta waves for deep restorative sleep' },
   { name: 'Light Sleep', frequency: 4, description: 'Theta waves for light sleep and meditation' },
@@ -113,8 +115,8 @@ const BinauralBeats: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-8 bg-gradient-to-br from-gray-900 to-black min-h-screen text-gray-100">
-      <h1 className="text-4xl font-extrabold text-orange-400 mb-8 text-center leading-tight">
+    <div className="flex flex-col items-center p-8 min-h-screen text-gray-100 animate-fade-in">
+      <h1 className="text-4xl font-extrabold text-branding-orange mb-8 text-center leading-tight">
         Binaural Beats Generator
       </h1>
       <p className="text-xl text-gray-300 mb-10 text-center max-w-3xl">
@@ -195,11 +197,7 @@ const BinauralBeats: React.FC = () => {
         <div className="flex justify-center space-x-4">
           <button
             onClick={isPlaying ? stopBinauralBeats : startBinauralBeats}
-            className={`px-8 py-4 text-xl font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 ${
-              isPlaying
-                ? 'bg-red-600 hover:bg-red-700 text-white'
-                : 'bg-green-600 hover:bg-green-700 text-white'
-            }`}
+            className={gradientBtn + ` px-8 py-4 text-xl font-bold rounded-full shadow-lg transition-all duration-300 transform ${isPlaying ? 'opacity-90' : ''}`}
           >
             {isPlaying ? '⏹️ Stop' : '▶️ Start'}
           </button>
@@ -235,6 +233,10 @@ const BinauralBeats: React.FC = () => {
           </div>
         </div>
       </div>
+      <style>{`
+        @keyframes fade-in { from { opacity: 0; transform: translateY(24px);} to { opacity: 1; transform: none; } }
+        .animate-fade-in { animation: fade-in 0.7s cubic-bezier(.4,0,.2,1) both; }
+      `}</style>
     </div>
   );
 };

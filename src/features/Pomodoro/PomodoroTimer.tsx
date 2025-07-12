@@ -1,104 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
-const WORK_DURATION = 25 * 60; // 25 minutes
-const SHORT_BREAK = 5 * 60; // 5 minutes
-const LONG_BREAK = 15 * 60; // 15 minutes
+const gradientBtn = "bg-gradient-to-r from-black via-[#C10801] via-60% to-[#F16001] text-white hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-branding-orange transition-all duration-200";
 
-type TimerMode = 'work' | 'shortBreak' | 'longBreak';
+const POMODORO = 25 * 60;
+const SHORT_BREAK = 5 * 60;
+const LONG_BREAK = 15 * 60;
 
 const PomodoroTimer: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState(WORK_DURATION);
-  const [isRunning, setIsRunning] = useState(false);
-  const [mode, setMode] = useState<TimerMode>('work');
-  const [sessions, setSessions] = useState(0);
+  const [seconds, setSeconds] = useState(POMODORO);
+  const [isActive, setIsActive] = useState(false);
+  const [mode, setMode] = useState<'work' | 'short' | 'long'>('work');
+  const intervalRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    let interval: number | undefined;
-    if (isRunning && timeLeft > 0) {
-      interval = window.setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
+  const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+
+  const start = () => {
+    if (!isActive) {
+      setIsActive(true);
+      intervalRef.current = window.setInterval(() => {
+        setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
-    } else if (timeLeft === 0) {
-      setIsRunning(false);
-      if (mode === 'work') {
-        setSessions((s) => s + 1);
-        if ((sessions + 1) % 4 === 0) {
-          setMode('longBreak');
-          setTimeLeft(LONG_BREAK);
-        } else {
-          setMode('shortBreak');
-          setTimeLeft(SHORT_BREAK);
-        }
-      } else {
-        setMode('work');
-        setTimeLeft(WORK_DURATION);
-      }
     }
-    return () => clearInterval(interval);
-  }, [isRunning, timeLeft, mode, sessions]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const pause = () => {
+    setIsActive(false);
+    if (intervalRef.current) window.clearInterval(intervalRef.current);
+  };
+
+  const reset = (newMode: typeof mode = mode) => {
+    pause();
+    setMode(newMode);
+    setSeconds(newMode === 'work' ? POMODORO : newMode === 'short' ? SHORT_BREAK : LONG_BREAK);
+  };
+
+  React.useEffect(() => {
+    if (seconds === 0) pause();
+    return () => { if (intervalRef.current) window.clearInterval(intervalRef.current); };
+  }, [seconds]);
+
   return (
-    <div className="flex flex-col items-center p-8 bg-gradient-to-br from-gray-900 to-black min-h-screen text-gray-100">
-      <h1 className="text-4xl font-extrabold text-orange-400 mb-8 text-center leading-tight">
-        Pomodoro Timer
-      </h1>
-      <div className="bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full border-b-4 border-orange-700 flex flex-col items-center">
-        <div className="text-6xl font-bold text-orange-400 mb-4">{formatTime(timeLeft)}</div>
-        <div className="text-lg text-gray-300 mb-6 capitalize">{mode === 'work' ? 'Work' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</div>
-        <div className="flex space-x-4 mb-6">
-          <button
-            onClick={() => setMode('work')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${mode === 'work' ? 'bg-orange-600 text-white' : 'bg-gray-700 hover:bg-gray-600 text-gray-200'}`}
-          >
-            Work
-          </button>
-          <button
-            onClick={() => setMode('shortBreak')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${mode === 'shortBreak' ? 'bg-orange-600 text-white' : 'bg-gray-700 hover:bg-gray-600 text-gray-200'}`}
-          >
-            Short Break
-          </button>
-          <button
-            onClick={() => setMode('longBreak')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${mode === 'longBreak' ? 'bg-orange-600 text-white' : 'bg-gray-700 hover:bg-gray-600 text-gray-200'}`}
-          >
-            Long Break
-          </button>
-        </div>
-        <div className="flex space-x-4">
-          {!isRunning ? (
-            <button
-              onClick={() => setIsRunning(true)}
-              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-            >
-              ▶️ Start
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsRunning(false)}
-              className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-            >
-              ⏸️ Pause
-            </button>
-          )}
-          <button
-            onClick={() => {
-              setIsRunning(false);
-              setTimeLeft(mode === 'work' ? WORK_DURATION : mode === 'shortBreak' ? SHORT_BREAK : LONG_BREAK);
-            }}
-            className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-          >
-            🔄 Reset
-          </button>
-        </div>
-        <div className="mt-8 text-center text-gray-400">Sessions completed: {sessions}</div>
+    <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md mx-auto flex flex-col items-center animate-fade-in">
+      <h2 className="text-2xl font-bold text-branding-orange mb-4">Pomodoro Timer</h2>
+      <div className="flex space-x-2 mb-6">
+        <button
+          className={gradientBtn + ` px-4 py-2 rounded-full text-sm font-bold ${mode === 'work' ? 'opacity-100' : 'opacity-70'}`}
+          onClick={() => reset('work')}
+        >Work</button>
+        <button
+          className={gradientBtn + ` px-4 py-2 rounded-full text-sm font-bold ${mode === 'short' ? 'opacity-100' : 'opacity-70'}`}
+          onClick={() => reset('short')}
+        >Short Break</button>
+        <button
+          className={gradientBtn + ` px-4 py-2 rounded-full text-sm font-bold ${mode === 'long' ? 'opacity-100' : 'opacity-70'}`}
+          onClick={() => reset('long')}
+        >Long Break</button>
       </div>
+      <div className="text-6xl font-mono text-gray-900 mb-6 tracking-widest">{formatTime(seconds)}</div>
+      <div className="flex space-x-4">
+        <button
+          className={gradientBtn + " px-6 py-2 rounded-lg text-lg"}
+          onClick={isActive ? pause : start}
+        >
+          {isActive ? 'Pause' : 'Start'}
+        </button>
+        <button
+          className={gradientBtn + " px-6 py-2 rounded-lg text-lg opacity-80"}
+          onClick={() => reset(mode)}
+        >
+          Reset
+        </button>
+      </div>
+      <style>{`
+        @keyframes fade-in { from { opacity: 0; transform: translateY(24px);} to { opacity: 1; transform: none; } }
+        .animate-fade-in { animation: fade-in 0.7s cubic-bezier(.4,0,.2,1) both; }
+      `}</style>
     </div>
   );
 };
