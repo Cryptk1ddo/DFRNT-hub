@@ -1,0 +1,51 @@
+{
+  "name": "Productivity Hub",
+  "short_name": "ProdHub",
+  "description": "Neuroscience-based productivity tools including nootropics, binaural beats, pomodoro timer, and training programs",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "app_url": "https://cryptk1ddo.github.io/DFRNT-hub",
+  "bot_username": "@DFRNT_bot",
+  "commands": [
+    {
+      "command": "start",
+      "description": "Open Productivity Hub"
+    },
+    {
+      "command": "nootropics",
+      "description": "Get nootropic recommendations"
+    },
+    {
+      "command": "binaural",
+      "description": "Start binaural beats session"
+    },
+    {
+      "command": "pomodoro",
+      "description": "Start pomodoro timer"
+    },
+    {
+      "command": "training",
+      "description": "Access training programs"
+    }
+  ],
+  "features": {
+    "web_app": true,
+    "inline_query": false,
+    "callback_query": true
+  },
+  "permissions": [
+    "notifications",
+    "audio"
+  ],
+  "theme": {
+    "primary_color": "#ea580c",
+    "secondary_color": "#1f2937",
+    "background_color": "#111827"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+} 
