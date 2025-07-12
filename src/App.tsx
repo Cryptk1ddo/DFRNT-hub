@@ -14,6 +14,30 @@ const NAV = [
 
 function App() {
   const [view, setView] = useState('nootropics');
+  const [showLanding, setShowLanding] = useState(true);
+
+  if (showLanding) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col">
+        <main className="hero flex-1 flex flex-col items-center justify-center min-h-[80vh] p-4 text-center animate-fadeIn">
+          <div className="logotype mb-6">DFRNT Tools</div>
+          <h1 className="title mb-4">DFRNT Productivity Hub</h1>
+          <p className="subtitle mb-8">
+            Neuroscience-based productivity tools: Nootropics Navigator, Binaural Beats Generator, Pomodoro Timer, and Cognitive Training Programs.<br />
+            <span style={{ color: '#D9C3AB' }}>Unlock your brain’s full potential.</span>
+          </p>
+          <button
+            className="cta-btn"
+            tabIndex={0}
+            onClick={() => setShowLanding(false)}
+          >
+            Launch App
+          </button>
+        </main>
+        <footer className="footer text-center text-gray-400 py-6 text-sm">&copy; 2024 DFRNT. All rights reserved.</footer>
+      </div>
+    );
+  }
 
   return (
     <UserProvider>
