@@ -21,7 +21,7 @@ const defaultUserProfile: UserProfile = {
 
 interface UserContextType {
   userProfile: UserProfile;
-  setUserProfile: (profile: UserProfile) => void;
+  setUserProfile: (profile: UserProfile | ((prev: UserProfile) => UserProfile)) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -43,42 +43,49 @@ export const useUser = () => {
   return context;
 };
 
-// Telegram Auth Hook
 export const useTelegramAuth = () => {
   const { setUserProfile } = useUser();
+  
   useEffect(() => {
-    // Only run in browser
     if (typeof window === "undefined") return;
-    // Detect Telegram WebApp context
+    
     const tg = (window as any).Telegram?.WebApp;
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
       const user = tg.initDataUnsafe.user;
-      // Prepare payload for backend
-      const payload = {
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username,
-        photo_url: user.photo_url,
-        hash: tg.initDataUnsafe.hash,
-        auth_date: tg.initDataUnsafe.auth_date,
-      };
-      // Send to backend for verification
-      axios.post("/auth/telegram", payload)
-        .then((res: { data: { user: any; token: string } }) => {
-          const { user, token } = res.data;
-          setUserProfile({
-            username: user.username || user.first_name || "TelegramUser",
-            telegramId: user.telegram_id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            photoUrl: user.photo_url,
-            jwt: token,
+      
+      setUserProfile({
+        username: user.username || user.first_name || "TelegramUser",
+        telegramId: user.id?.toString(),
+        firstName: user.first_name,
+        lastName: user.last_name,
+        photoUrl: user.photo_url,
+      });
+      
+      const backendUrl = "https://your-backend-url.onrender.com";
+      
+      if (backendUrl && backendUrl !== "https://your-backend-url.onrender.com") {
+        const payload = {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          username: user.username,
+          photo_url: user.photo_url,
+          hash: tg.initDataUnsafe.hash,
+          auth_date: tg.initDataUnsafe.auth_date,
+        };
+        
+        axios.post(`${backendUrl}/auth/telegram`, payload)
+          .then((res: { data: { user: any; token: string } }) => {
+            const { token } = res.data;
+            setUserProfile((prev: UserProfile) => ({
+              ...prev,
+              jwt: token,
+            }));
+          })
+          .catch((error) => {
+            console.log("Backend verification failed, using local auth:", error.message);
           });
-        })
-        .catch(() => {
-          // fallback to guest
-        });
+      }
     }
   }, [setUserProfile]);
-}; 
+};
