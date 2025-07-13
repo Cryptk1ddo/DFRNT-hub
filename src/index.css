@@ -1,68 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --branding-orange: #E85002;
+  --branding-gradient1: #000000;
+  --branding-gradient2: #C10801;
+  --branding-gradient3: #F16001;
+  --branding-gradient4: #D9C3AB;
+  --primary: #000000;
+  --white: #F9F9F9;
+  --gray-light: #A7A7A7;
+  --gray-dark: #333333;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+.hero {
+  background: linear-gradient(135deg, var(--branding-gradient1) 0%, var(--branding-gradient2) 40%, var(--branding-gradient3) 80%, var(--branding-gradient4) 100%);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.logotype {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--branding-orange) 0%, var(--branding-gradient4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
 }
 
-h1 {
-  font-size: 3.2em;
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--white);
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--gray-light);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.cta-btn {
+  background: linear-gradient(90deg, var(--branding-gradient1) 0%, var(--branding-gradient2) 40%, var(--branding-gradient3) 80%, var(--branding-gradient4) 100%);
+  color: var(--white);
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(232, 80, 2, 0.3);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(232, 80, 2, 0.4);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.text-branding-orange { color: var(--branding-orange); }
+.bg-branding-orange { background-color: var(--branding-orange); }
+.bg-primary { background-color: var(--primary); }
+.text-white { color: var(--white); }
+.bg-white { background-color: var(--white); }
+.text-gray-light { color: var(--gray-light); }
+.bg-gray-dark { background-color: var(--gray-dark); }
+.border-branding-orange { border-color: var(--branding-orange); }
+.border-gray-light { border-color: var(--gray-light); }

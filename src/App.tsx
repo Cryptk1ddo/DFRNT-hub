@@ -3,7 +3,7 @@ import NootropicsLibrary from './features/Nootropics/NootropicsLibrary';
 import PomodoroTimer from './features/Pomodoro/PomodoroTimer';
 import TrainingHub from './features/TrainingHub/TrainingHub';
 import BinauralBeats from './features/BinauralBeats/BinauralBeats';
-import { UserProvider, useTelegramAuth } from './context/UserContext';
+import { UserProvider } from './context/UserContext';
 
 const NAV = [
   { key: 'nootropics', label: 'Nootropics', icon: '🧠' },
@@ -16,7 +16,6 @@ function App() {
   const [view, setView] = useState('nootropics');
   const [showLanding, setShowLanding] = useState(true);
 
-  useTelegramAuth();
 
   if (showLanding) {
     return (
