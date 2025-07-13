@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import NootropicsLibrary from './features/Nootropics/NootropicsLibrary';
 import PomodoroTimer from './features/Pomodoro/PomodoroTimer';
 import TrainingHub from './features/TrainingHub/TrainingHub';
